@@ -1,37 +1,15 @@
+// create an express app
 const express = require("express")
-const mongoose = require("mongoose")
-const dotenv = require("dotenv")
-const cors = require("cors")
-
-dotenv.config();
-
 const app = express()
 
-const routers = require("./Routes/Routes");
-const authRoute = require("./Routes/AdminRoutes");
+// use the express-static middleware
+app.use(express.static("public"))
 
-
-// const flatDatas = require("./flatData")
-// const flatData = require("./Models/flatData");
-
-app.use(express.json())
-
-app.use(cors())
-
-mongoose.connect(process.env.ATLAS_URI, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-}, async () => {
-    // await flatData.insertMany(flatDatas)
-    //     .then(res => console.log("Data Added"))
-    //     .catch(err => console.log(err))
-    console.log("Database is connected")
+// define the first route
+app.get("/", function (req, res) {
+    res.send("<h1>Hello World!</h1>")
 })
 
-app.use("/", routers)
-app.use("/", authRoute);
-
-app.listen(process.env.PORT || 5000, () => {
-    console.log(`SERVER RUNNING! 5000`)
-})
+// start the server listening for requests
+app.listen(process.env.PORT || 5000,
+    () => console.log("Server is running..."));
